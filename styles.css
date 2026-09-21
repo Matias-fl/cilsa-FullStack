@@ -1,0 +1,148 @@
+body {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    
+}
+
+form {
+    display: block;
+    border: 1px solid #000000;
+    border-radius: 12px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.35);
+    padding: 25px;
+}
+
+form.contrast-mode {
+    background-color: #000000;
+    border: 3px solid #ffffff;
+    box-shadow: 0 0 15px #ffffff;
+    color: #ffffff;
+}
+
+h1 {
+    display: flex;
+    justify-content: center;
+    font-size: large;
+    margin-top: -1px;
+    margin-bottom: 20px;
+}
+
+.contrast-mode h1 {
+    font-size: large;
+    font-weight: 700;
+    color: #FFFF00;
+    margin-top: -1px;
+    margin-bottom: 20px;
+}
+
+.input-group {
+    display: flex;
+    align-items: center;
+    margin-block: 5px;
+}
+
+label {
+    display: block;
+    width: 90px;
+}
+
+.contrast-mode label {
+    font-weight: 700;
+    color: #FFFF00;
+}
+
+input {
+    height: 20px;
+    width: 220px;
+    border-style: solid;
+    font-size: 16px;
+}
+
+input:hover {
+    border-color: #501aa5b2;
+}
+
+.contrast-mode input:hover {
+    border-width: 2px;
+    border-color: rgb(243, 106, 15);
+}
+
+.submit {
+    width: 120px;
+    border-color: #0000007c;
+    background-color:rgba(137, 43, 226, 0.616);
+    align-items: center;
+}
+
+.contrast-mode .submit{
+border: 2px solid #FFFFFF;
+background-color: #FFFF00;
+color: #000000;
+font-weight: 700;
+}
+
+.submit:hover {
+    box-shadow: 0 0 15px rgba(96, 52, 177, 0.74);
+}
+
+.contrast-mode .submit:hover {
+    box-shadow: 0 0 15px rgba(243, 106, 15, 0.74);
+}
+
+.input-submit {
+    display: flex;
+    justify-content: center;
+    margin-top: 16px;
+    
+}
+
+.change-mode-form {
+    display: flex;
+    justify-content:center;
+    margin-top: 16px;
+}
+
+.validation-error {
+    color: red;
+    font-size: 14px;
+    margin: 8px 0px;
+}
+
+.contrast-mode .validation-error {
+    color: #eb2c13;
+    font-size: 16px;
+    font-weight: 700;
+}
+
+#submitMessage {
+    color: green;
+    text-align: center;
+}
+
+.contrast-mode #submitMessage {
+    color: rgb(35, 233, 35);
+    font-weight: 700;
+}
+
+.btn-change-mode {
+    background-color: rgba(248, 114, 24, 0.87);
+}
+
+.btn-change-mode:hover {
+    box-shadow: 0 0 15px rgba(96, 52, 177, 0.74);
+}
+.contrast-mode .btn-change-mode {
+    border: 2px solid #FFFFFF;
+    background-color: rgb(252, 114, 22);
+    color: #000000;
+    font-weight: 700;
+}
+
+.contrast-mode .btn-change-mode:hover {
+    box-shadow: 0 0 15px rgba(243, 106, 15, 0.74);
+    border-width: 2px;
+    border-color: rgb(236, 233, 5);
+}
+

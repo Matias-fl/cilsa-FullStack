@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
+    <title>Form</title>
+</head>
+<body>
+    <form id="form" action="#">
+        <h1>Formulario de Datos Personales</h1>
+        <div class="input-group">
+            <label for="name">Nombre:</label>
+            <input type="text" name="name" id="name" minlength="3" maxlength="30"/>
+        </div>
+        <p class="validation-error" id="nameError"></p>
+
+        <div class="input-group">
+            <label for="lastname">Apellido:</label>
+            <input type="text" name="lastname" id="lastname" maxlength="30"/>
+        </div>
+        <p class="validation-error" id="lastnameError"></p>
+
+        <div class="input-group">
+            <label for="dni">DNI:</label>
+            <input type="number" name="dni" id="dni"/>
+        </div>
+        <p class="validation-error" id="dniError"></p>
+
+        <div class="input-group">
+            <label for="birthdate">Fecha de nacimiento:</label>
+            <input type="date" name="birthdate" id="birthdate"/>
+        </div>
+        <p class="validation-error" id="birthdateError"></p>
+
+        <div class="input-group">
+            <label for="País de residencia:">Pais de residencia</label>
+            <input type="text" name="residenceCountry" id="residenceCountry" maxlength="20"/>
+        </div>
+        <p class="validation-error" id="residenceCountryError"></p>
+
+        <div class="input-group">
+            <label for="email">Email:</label>
+            <input type="text" name="email" id="email" maxlength="40"/>
+        </div>
+        <p class="validation-error" id="emailError"></p>
+
+        <div class="input-submit">
+            <input class="submit" type="submit" value="Enviar" id="submit"/>
+        </div>
+        <p id="submitMessage"></p>
+        <div class="change-mode-form">
+            <button class="btn-change-mode" id="btnChangeMode">Cambiar a Modo Alto Contraste</button>
+        </div>
+    </form>
+    <script src="script.js" defer></script>
+</body>
+</html>
