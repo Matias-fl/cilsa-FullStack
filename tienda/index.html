@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ElectroCILSA - Tecnología e Innovación</title>
+    
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    
+    <style>
+        /* Estilos sutiles para dar el toque moderno sin sobrecargar */
+        .carousel-img-responsive {
+            height: clamp(340px, 55vh, 540px);
+            object-fit: cover;
+        }
+        .hero-overlay {
+            background: linear-gradient(180deg, rgba(15, 23, 42, 0.2) 0%, rgba(15, 23, 42, 0.85) 100%);
+        }
+        .card-category-hover {
+            transition: all 0.3s ease;
+        }
+        .card-category-hover:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 1rem 3rem rgba(0,0,0,0.12) !important;
+        }
+    </style>
+</head>
+<body class="d-flex flex-column min-vh-100 bg-body-tertiary">
+
+    <!-- navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top border-bottom border-secondary-subtle">
+        <div class="container py-1">
+            <!-- Brand / Logo -->
+            <a class="navbar-brand d-flex align-items-center gap-2 fw-bold fs-4" href="index.html">
+                <span class="badge bg-primary p-2 rounded-3">
+                    <i class="bi bi-cpu-fill"></i>
+                </span>
+                <span>Electro<span class="text-primary">CILSA</span></span>
+            </a>
+            
+            <!-- Botón Hamburguesa -->
+            <button class="navbar-toggler border-0 shadow-none" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTienda" aria-controls="navbarTienda" aria-expanded="false" aria-label="Navegación">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            
+            <!-- Enlaces del Menú -->
+            <div class="collapse navbar-collapse" id="navbarTienda">
+                <ul class="navbar-nav ms-auto align-items-lg-center gap-lg-1 my-3 my-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link active px-3 rounded-pill bg-secondary-subtle text-dark fw-bold" aria-current="page" href="inicio.html">Inicio</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link px-3 text-light-emphasis fw-medium" href="productos.html">Productos</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link px-3 text-light-emphasis fw-medium" href="contacto.html">Contacto</a>
+                    </li>
+                    
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <main class="flex-grow-1">
+        <!-- carrusel -->
+        <section class="container my-4">
+            <div id="carruselHero" class="carousel slide carousel-fade rounded-4 overflow-hidden shadow-lg" data-bs-ride="carousel">
+                <!-- Indicadores -->
+                <div class="carousel-indicators mb-3">
+                    <button type="button" data-bs-target="#carruselHero" data-bs-slide-to="0" class="active rounded-pill" style="width: 28px; height: 6px;" aria-current="true" aria-label="Slide 1"></button>
+                    <button type="button" data-bs-target="#carruselHero" data-bs-slide-to="1" class="rounded-pill" style="width: 28px; height: 6px;" aria-label="Slide 2"></button>
+                    <button type="button" data-bs-target="#carruselHero" data-bs-slide-to="2" class="rounded-pill" style="width: 28px; height: 6px;" aria-label="Slide 3"></button>
+                </div>
+                
+                <div class="carousel-inner">
+                    <!-- carrusel de Notebooks -->
+                    <div class="carousel-item active" data-bs-interval="4500">
+                        <div class="position-relative">
+                            <img src="images/laptop.jpg"class="d-block w-100 carousel-img-responsive" alt="Notebooks Pro">
+                            <div class="hero-overlay position-absolute top-0 start-0 w-100 h-100 d-flex align-items-end p-4 p-md-5">
+                                <div class="text-white col-12 col-md-8 col-lg-6 mb-3">
+                                    <span class="badge bg-primary-subtle text-primary border border-primary-subtle rounded-pill px-3 py-1 mb-2 fw-semibold">Gama Profesional</span>
+                                    <h1 class="display-6 fw-bold mb-2">Notebooks & Workstations</h1>
+                                    <p class="lead fs-6 text-light opacity-75 mb-3">Potencia sin límites para desarrollo, gaming y producción creativa.</p>
+                                    <a href="productos.html" class="btn btn-primary rounded-pill px-4 fw-semibold shadow-sm">
+                                        Explorar Modelos <i class="bi bi-arrow-right ms-1"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- carrusel de celulares -->
+                    <div class="carousel-item" data-bs-interval="4500">
+                        <div class="position-relative">
+                            <img src="images/celular.png"  class="d-block w-100 carousel-img-responsive" alt="Smartphones">
+                            <div class="hero-overlay position-absolute top-0 start-0 w-100 h-100 d-flex align-items-end p-4 p-md-5">
+                                <div class="text-white col-12 col-md-8 col-lg-6 mb-3">
+                                    <span class="badge bg-info-subtle text-info border border-info-subtle rounded-pill px-3 py-1 mb-2 fw-semibold">Conectividad 5G</span>
+                                    <h2 class="display-6 fw-bold mb-2">Smartphones de Vanguardia</h2>
+                                    <p class="lead fs-6 text-light opacity-75 mb-3">Pantallas OLED de alta frecuencia, cámaras profesionales y batería de larga duración.</p>
+                                    <a href="productos.html" class="btn btn-info text-white rounded-pill px-4 fw-semibold shadow-sm">
+                                        Ver Celulares <i class="bi bi-arrow-right ms-1"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="carousel-item" data-bs-interval="4500">
+                        <div class="position-relative">
+                            <img src="images/logitech.png"  class="d-block w-100 carousel-img-responsive" alt="Periféricos">
+                            <div class="hero-overlay position-absolute top-0 start-0 w-100 h-100 d-flex align-items-end p-4 p-md-5">
+                                <div class="text-white col-12 col-md-8 col-lg-6 mb-3">
+                                    <span class="badge bg-warning-subtle text-warning border border-warning-subtle rounded-pill px-3 py-1 mb-2 fw-semibold">Audio & Periféricos</span>
+                                    <h2 class="display-6 fw-bold mb-2">Setup Ergonómico y Sonido Hi-Fi</h2>
+                                    <p class="lead fs-6 text-light opacity-75 mb-3">Auriculares con cancelación activa de ruido y periféricos de precisión.</p>
+                                    <a href="productos.html" class="btn btn-warning rounded-pill px-4 fw-semibold shadow-sm">
+                                        Ver Accesorios <i class="bi bi-arrow-right ms-1"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <button class="carousel-control-prev" type="button" data-bs-target="#carruselHero" data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon p-3 bg-dark bg-opacity-50 rounded-circle" aria-hidden="true"></span>
+                    <span class="visually-hidden">Anterior</span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#carruselHero" data-bs-slide="next">
+                    <span class="carousel-control-next-icon p-3 bg-dark bg-opacity-50 rounded-circle" aria-hidden="true"></span>
+                    <span class="visually-hidden">Siguiente</span>
+                </button>
+            </div>
+        </section>
+        <section class="container my-5">
+            <div class="row g-4 text-center">
+                <div class="col-6 col-md-3">
+                    <div class="card h-100 border-0 bg-white p-3 rounded-4 shadow-sm">
+                        <div class="fs-1 text-primary mb-2"><i class="bi bi-truck"></i></div>
+                        <h6 class="fw-bold mb-1">Envíos Rápidos</h6>
+                        <p class="text-muted small mb-0">Entregas a todo el país en 24 a 48 hs.</p>
+                    </div>
+                </div>
+                <div class="col-6 col-md-3">
+                    <div class="card h-100 border-0 bg-white p-3 rounded-4 shadow-sm">
+                        <div class="fs-1 text-primary mb-2"><i class="bi bi-shield-check"></i></div>
+                        <h6 class="fw-bold mb-1">Garantía Oficial</h6>
+                        <p class="text-muted small mb-0">12 meses de garantía directa de fábrica.</p>
+                    </div>
+                </div>
+                <div class="col-6 col-md-3">
+                    <div class="card h-100 border-0 bg-white p-3 rounded-4 shadow-sm">
+                        <div class="fs-1 text-primary mb-2"><i class="bi bi-credit-card-2-front"></i></div>
+                        <h6 class="fw-bold mb-1">Cuotas sin Interés</h6>
+                        <p class="text-muted small mb-0">Todas las tarjetas de crédito y débito.</p>
+                    </div>
+                </div>
+                <div class="col-6 col-md-3">
+                    <div class="card h-100 border-0 bg-white p-3 rounded-4 shadow-sm">
+                        <div class="fs-1 text-primary mb-2"><i class="bi bi-universal-access-circle"></i></div>
+                        <h6 class="fw-bold mb-1">Compromiso CILSA</h6>
+                        <p class="text-muted small mb-0">Tecnología accesible y asistencia adaptada.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section class="container my-5">
+            <div class="card border-0 rounded-4 shadow-sm bg-dark text-white p-4 p-md-5 overflow-hidden position-relative">
+                <div class="row align-items-center position-relative" style="z-index: 1;">
+                    <div class="col-lg-8 text-center text-lg-start mb-4 mb-lg-0">
+                        <span class="badge bg-primary text-uppercase px-3 py-2 rounded-pill fw-semibold mb-3">Catálogo 2026</span>
+                        <h2 class="display-5 fw-bold mb-3">Encuentra los mejores productos navegando por nuestras categorías</h2>
+                        <p class="lead fs-6 text-light opacity-75 mb-0">
+                            Equipos seleccionados para estudiantes, profesionales y gamers. Calidad certificada y asesoramiento personalizado.
+                        </p>
+                    </div>
+                    <div class="col-lg-4 text-center text-lg-end">
+                        <a href="productos.html" class="btn btn-primary btn-lg px-4 py-3 rounded-pill fw-bold shadow">
+                            <i class="bi bi-grid-fill me-2"></i> Ver Productos
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+    <!-- PIE DE pag  -->
+    <footer class="bg-dark text-light pt-5 pb-4 mt-auto border-top border-secondary-subtle">
+        <div class="container">
+            <div class="row g-4 justify-content-between">
+                <div class="col-12 col-md-5">
+                    <h5 class="fw-bold text-white d-flex align-items-center gap-2 mb-3">
+                        <span class="badge bg-primary p-2 rounded-3"><i class="bi bi-cpu-fill"></i></span>
+                        Electro<span class="text-primary">CILSA</span>
+                    </h5>
+                    <p class="text-secondary small mb-3">
+                        Plataforma oficial de venta de equipamiento electrónico y soluciones digitales. Promoviendo la inclusión digital y la tecnología accesible para toda la comunidad.
+                    </p>
+                    <div class="d-flex gap-2">
+                        <a href="#" class="btn btn-outline-secondary btn-sm rounded-circle" style="width:36px; height:36px;" aria-label="Facebook"><i class="bi bi-facebook"></i></a>
+                        <a href="#" class="btn btn-outline-secondary btn-sm rounded-circle" style="width:36px; height:36px;" aria-label="Instagram"><i class="bi bi-instagram"></i></a>
+                        <a href="#" class="btn btn-outline-secondary btn-sm rounded-circle" style="width:36px; height:36px;" aria-label="LinkedIn"><i class="bi bi-linkedin"></i></a>
+                        <a href="#" class="btn btn-outline-secondary btn-sm rounded-circle" style="width:36px; height:36px;" aria-label="GitHub"><i class="bi bi-github"></i></a>
+                    </div>
+                </div>
+
+                <div class="col-6 col-md-3">
+                    <h6 class="text-white fw-bold mb-3">Navegación</h6>
+                    <ul class="list-unstyled small d-flex flex-column gap-2 mb-0">
+                        <li><a href="index.html" class="text-secondary text-decoration-none hover-white">Inicio</a></li>
+                        <li><a href="productos.html" class="text-secondary text-decoration-none hover-white">Catálogo de Productos</a></li>
+                        <li><a href="contacto.html" class="text-secondary text-decoration-none hover-white">Centro de Contacto</a></li>
+                    </ul>
+                </div>
+                <div class="col-6 col-md-3">
+                    <h6 class="text-white fw-bold mb-3">Soporte</h6>
+                    <ul class="list-unstyled small d-flex flex-column gap-2 mb-0">
+                        <li><span class="text-secondary">Atención: Lun a Vie 9 a 18 hs</span></li>
+                        <li><span class="text-secondary">Envíos a todo el país</span></li>
+                        <li><span class="text-secondary">Garantía oficial CILSA</span></li>
+                    </ul>
+                </div>
+            </div>
+            <hr class="border-secondary my-4">
+            <div class="row align-items-center small text-secondary">
+                <div class="col-md-6 text-center text-md-start mb-2 mb-md-0">
+                    &copy; 2026 ElectroCILSA. Todos los derechos reservados.
+                </div>
+                <div class="col-md-6 text-center text-md-end">
+                    Proyecto Integrador &bull; CILSA Full Stack Developer
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Bootstrap 5 JS Bundle -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
