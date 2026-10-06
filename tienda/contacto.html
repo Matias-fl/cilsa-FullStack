@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ElectroCILSA - Contacto</title>
+    
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+</head>
+<body class="d-flex flex-column min-vh-100 bg-body-tertiary">
+
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top border-bottom border-secondary-subtle">
+        <div class="container py-1">
+            <!-- Brand / Logo -->
+            <a class="navbar-brand d-flex align-items-center gap-2 fw-bold fs-4" href="index.html">
+                <span class="badge bg-primary p-2 rounded-3">
+                    <i class="bi bi-cpu-fill"></i>
+                </span>
+                <span>Electro<span class="text-primary">CILSA</span></span>
+            </a>
+            
+            <!-- Botón Hamburguesa -->
+            <button class="navbar-toggler border-0 shadow-none" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTienda" aria-controls="navbarTienda" aria-expanded="false" aria-label="Navegación">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            
+            <!-- Enlaces del Menú -->
+            <div class="collapse navbar-collapse" id="navbarTienda">
+                <ul class="navbar-nav ms-auto align-items-lg-center gap-lg-1 my-3 my-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link px-3 text-light-emphasis fw-medium" href="index.html">Inicio</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link px-3 text-light-emphasis fw-medium" href="productos.html">Productos</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active px-3 rounded-pill bg-secondary-subtle text-dark fw-bold" aria-current="page" href="contacto.html">Contacto</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Contenido Principal -->
+    <main class="flex-grow-1 py-5">
+        <div class="container">
+            <!-- Encabezado de la página -->
+             <div class="text-center mb-5">
+                <h1 class="display-5 fw-bold mb-2 text-dark">Contáctanos</h1>
+                <p class="fs-6 text-dark fw-medium opacity-75 mx-auto" style="max-width: 600px;">
+                    ¿Tienes dudas sobre algún equipo o necesitas asesoramiento técnico? Escríbenos y te responderemos a la brevedad.
+                </p>
+            </div>
+            
+
+            <!-- Formulario Centrado -->
+            <div class="row justify-content-center">
+                <div class="col-12 col-md-10 col-lg-8 col-xl-7">
+                    <div class="card border-0 bg-white p-4 p-md-5 rounded-4 shadow-sm">
+                        <h3 class="fw-bold mb-1">Envíanos un mensaje</h3>
+                        <p class="text-muted small mb-4">Completa todos los campos obligatorios para enviar tu consulta.</p>
+
+                        <!-- Formulario con validación nativa de Bootstrap -->
+                        <form class="needs-validation" novalidate id="formContacto">
+                            <!-- Campo Nombre -->
+                            <div class="mb-3">
+                                <label for="nombre" class="form-label fw-semibold small">Nombre completo</label>
+                                <div class="input-group">
+                                    <span class="input-group-text bg-light text-secondary border-end-0 rounded-start-3">
+                                        <i class="bi bi-person"></i>
+                                    </span>
+                                    <input type="text" class="form-control border-start-0 rounded-end-3" id="nombre" placeholder="Ej. Juan Pérez" required>
+                                    <div class="invalid-feedback">Por favor, ingresa tu nombre completo.</div>
+                                </div>
+                            </div>
+
+                            <!-- Campo Email -->
+                            <div class="mb-3">
+                                <label for="email" class="form-label fw-semibold small">Correo electrónico</label>
+                                <div class="input-group">
+                                    <span class="input-group-text bg-light text-secondary border-end-0 rounded-start-3">
+                                        <i class="bi bi-envelope"></i>
+                                    </span>
+                                    <input type="email" class="form-control border-start-0 rounded-end-3" id="email" placeholder="nombre@ejemplo.com" required>
+                                    <div class="invalid-feedback">Por favor, ingresa un correo electrónico válido.</div>
+                                </div>
+                            </div>
+
+                            <!-- Campo Mensaje -->
+                            <div class="mb-4">
+                                <label for="mensaje" class="form-label fw-semibold small">Mensaje o consulta</label>
+                                <textarea class="form-control rounded-3" id="mensaje" rows="5" placeholder="¿En qué podemos ayudarte?" required></textarea>
+                                <div class="invalid-feedback">Por favor, escribe tu mensaje o consulta.</div>
+                            </div>
+
+                            <!-- Botón de Envío -->
+                            <div class="d-grid d-md-flex justify-content-md-end">
+                                <button type="submit" class="btn btn-primary rounded-pill px-5 py-2 fw-semibold shadow-sm">
+                                    <i class="bi bi-send-fill me-1"></i> Enviar Consulta
+                                </button>
+                            </div>
+
+                            <!-- Mensaje de éxito verde (aparece tras enviar y se borra a los segundos) -->
+                            <div id="mensajeExito" class="alert alert-success d-none align-items-center gap-2 mt-4 rounded-3 border-0 shadow-sm" role="alert">
+                                <i class="bi bi-check-circle-fill fs-5"></i>
+                                <div>
+                                    ¡Tu mensaje ha sido enviado correctamente! Nos comunicaremos a la brevedad.
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-dark text-light pt-5 pb-4 mt-auto border-top border-secondary-subtle">
+        <div class="container">
+            <div class="row g-4 justify-content-between">
+                <div class="col-12 col-md-5">
+                    <h5 class="fw-bold text-white d-flex align-items-center gap-2 mb-3">
+                        <span class="badge bg-primary p-2 rounded-3"><i class="bi bi-cpu-fill"></i></span>
+                        Electro<span class="text-primary">CILSA</span>
+                    </h5>
+                    <p class="text-secondary small mb-3">
+                        Plataforma oficial de venta de equipamiento electrónico y soluciones digitales. Promoviendo la inclusión digital y la tecnología accesible para toda la comunidad.
+                    </p>
+                    <div class="d-flex gap-2">
+                        <a href="#" class="btn btn-outline-secondary btn-sm rounded-circle" style="width:36px; height:36px;" aria-label="Facebook"><i class="bi bi-facebook"></i></a>
+                        <a href="#" class="btn btn-outline-secondary btn-sm rounded-circle" style="width:36px; height:36px;" aria-label="Instagram"><i class="bi bi-instagram"></i></a>
+                        <a href="#" class="btn btn-outline-secondary btn-sm rounded-circle" style="width:36px; height:36px;" aria-label="LinkedIn"><i class="bi bi-linkedin"></i></a>
+                        <a href="#" class="btn btn-outline-secondary btn-sm rounded-circle" style="width:36px; height:36px;" aria-label="GitHub"><i class="bi bi-github"></i></a>
+                    </div>
+                </div>
+
+                <div class="col-6 col-md-3">
+                    <h6 class="text-white fw-bold mb-3">Navegación</h6>
+                    <ul class="list-unstyled small d-flex flex-column gap-2 mb-0">
+                        <li><a href="index.html" class="text-secondary text-decoration-none">Inicio</a></li>
+                        <li><a href="productos.html" class="text-secondary text-decoration-none">Catálogo de Productos</a></li>
+                        <li><a href="contacto.html" class="text-secondary text-decoration-none">Centro de Contacto</a></li>
+                    </ul>
+                </div>
+
+                <div class="col-6 col-md-3">
+                    <h6 class="text-white fw-bold mb-3">Soporte</h6>
+                    <ul class="list-unstyled small d-flex flex-column gap-2 mb-0">
+                        <li><span class="text-secondary">Atención: Lun a Vie 9 a 18 hs</span></li>
+                        <li><span class="text-secondary">Envíos a todo el país</span></li>
+                        <li><span class="text-secondary">Garantía oficial CILSA</span></li>
+                    </ul>
+                </div>
+            </div>
+            <hr class="border-secondary my-4">
+            <div class="row align-items-center small text-secondary">
+                <div class="col-md-6 text-center text-md-start mb-2 mb-md-0">
+                    &copy; 2026 ElectroCILSA. Todos los derechos reservados.
+                </div>
+                <div class="col-md-6 text-center text-md-end">
+                    Proyecto Integrador &bull; CILSA Full Stack Developer
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Bootstrap 5 JS Bundle -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Script de Validación y Feedback de Envío -->
+    <script>
+        (() => {
+            'use strict';
+            const form = document.getElementById('formContacto');
+            const mensajeExito = document.getElementById('mensajeExito');
+            let temporizador;
+
+            form.addEventListener('submit', event => {
+                event.preventDefault();
+                event.stopPropagation();
+
+                // Si algún campo no cumple con los requisitos
+                if (!form.checkValidity()) {
+                    form.classList.add('was-validated');
+                    return;
+                }
+
+                // Si todo está correcto:
+                form.classList.remove('was-validated');
+                form.reset();
+
+                // Mostrar el aviso verde
+                mensajeExito.classList.remove('d-none');
+                mensajeExito.classList.add('d-flex');
+
+                // Si el usuario vuelve a enviar antes de tiempo, reiniciamos el temporizador
+                clearTimeout(temporizador);
+
+                // Ocultar automáticamente a los 4 segundos
+                temporizador = setTimeout(() => {
+                    mensajeExito.classList.remove('d-flex');
+                    mensajeExito.classList.add('d-none');
+                }, 4000);
+            }, false);
+        })();
+    </script>
+</body>
+</html>
