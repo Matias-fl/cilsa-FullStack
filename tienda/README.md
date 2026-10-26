@@ -138,6 +138,8 @@ CREATE TABLE Facturas_Pagos (
     CONSTRAINT fk_carrito_factura FOREIGN KEY (id_carrito) REFERENCES Carritos_Compra(id_carrito) ON DELETE RESTRICT
 );
 ```
+### Captura de pantalla con las tablas creadas:
+![Diagrama Entidad-Relación de la Tienda](images/tablasCreadas.png)
 
 ---
 
