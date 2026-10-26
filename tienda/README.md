@@ -1,5 +1,4 @@
-# Trabajo Práctico: Diseño e Implementación de Base de Datos - Tienda Digital de Electrónicos
-
+# Trabajo Práctico 2: Diseño e Implementación de Base de Datos - Tienda Digital 
 Este documento detalla el proceso de diseño y creación de la base de datos relacional para el proyecto de **Tienda ElectroCilsa**, siguiendo las pautas de la consigna y adaptando la implementación técnica al motor de base de datos **PostgreSQL**.
 
 ---
@@ -144,7 +143,7 @@ CREATE TABLE Facturas_Pagos (
 ---
 
 ## Entregables Adjuntos por el Grupo
-- [x] **Diagrama Entidad-Relación (DER):** Imagen generada a partir del bloque PlantUML en draw.io.
-- [x] **Archivo de Base de Datos / Script SQL:** Archivo `.sql` / Backup de la base creada en PostgreSQL.
-- [x] **Captura de Pantalla:** Imagen del entorno de PostgreSQL mostrando el esquema con las 7 tablas creadas.
-- [x] **Identificación de Claves:** Detallada en el punto 5.1 y aplicada mediante `PRIMARY KEY` y `FOREIGN KEY` en el script.
+- [✔] **Diagrama Entidad-Relación (DER):** Imagen generada a partir del bloque PlantUML en draw.io.
+- [✔] **Archivo de Base de Datos / Script SQL:** Archivo `.sql` / Backup de la base creada en PostgreSQL.
+- [✔] **Captura de Pantalla:** Imagen del entorno de PostgreSQL mostrando el esquema con las 7 tablas creadas.
+- [✔] **Identificación de Claves:** Detallada en el punto 5.1 y aplicada mediante `PRIMARY KEY` y `FOREIGN KEY` en el script.
