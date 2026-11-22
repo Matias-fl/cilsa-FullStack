@@ -1,5 +1,6 @@
 export { crearPool } from './database/pool.js'
 export { ProductoNoEncontradoError } from './errors.js'
-export type { Compra, DetalleCompra, ItemCarrito, Producto, Usuario } from './model.js'
+export type { Categoria, Compra, DetalleCompra, ItemCarrito, Producto, Usuario } from './model.js'
+export { CategoriaRepository } from './repositories/CategoriaRepository.js'
 export { ProductoRepository } from './repositories/ProductoRepository.js'
 export { CatalogoService } from './services/CatalogoService.js'

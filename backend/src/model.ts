@@ -4,12 +4,18 @@ export type Usuario = {
   email: string
 }
 
+export type Categoria = {
+  id: number
+  nombre: string
+}
+
 export type Producto = {
   id: number
   codigo: string
   vendedorId: Usuario['id']
   nombre: string
   descripcion: string
+  categoriaId: Categoria['id'] | null
   imagenUrl: string | null
   precioCentavos: number
   stock: number
