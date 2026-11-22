@@ -1,0 +1,461 @@
+openapi: 3.0.3
+info:
+  title: API de la tienda CILSA
+  version: 0.2.0
+  description: |
+    Contrato para el catálogo, el carrito y la compra ficticia del TFI.
+    Los precios y los totales se expresan como enteros en centavos de pesos argentinos.
+    La cookie cilsa_carrito identifica la sesión anónima del carrito y de su historial de compras.
+servers:
+  - url: http://localhost:3000/api
+    description: Servidor local previsto
+tags:
+  - name: Catálogo
+  - name: Carrito
+  - name: Compras
+paths:
+  /productos:
+    get:
+      tags: [Catálogo]
+      operationId: listarProductos
+      summary: Listar productos
+      description: |
+        Incluye productos sin stock para que la web pueda mostrarlos como agotados.
+        La búsqueda por nombre y el filtro por categoría se pueden combinar.
+        Si ningún producto coincide con los filtros, devuelve una lista vacía.
+      parameters:
+        - name: q
+          in: query
+          required: false
+          description: Parte del nombre a buscar, sin distinguir mayúsculas. Se eliminan los espacios al inicio y al final. Un valor que queda vacío es inválido.
+          schema:
+            type: string
+            minLength: 1
+          example: teclado
+        - name: categoriaId
+          in: query
+          required: false
+          description: ID de la categoría seleccionada.
+          schema:
+            $ref: '#/components/schemas/Id'
+      responses:
+        '200':
+          description: Productos del catálogo, ordenados por ID ascendente.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Producto'
+        '400':
+          $ref: '#/components/responses/DatosInvalidos'
+        '500':
+          $ref: '#/components/responses/ErrorInterno'
+  /productos/{productoId}:
+    parameters:
+      - $ref: '#/components/parameters/ProductoId'
+    get:
+      tags: [Catálogo]
+      operationId: obtenerProducto
+      summary: Consultar el detalle de un producto
+      responses:
+        '200':
+          description: Detalle del producto.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Producto'
+        '400':
+          $ref: '#/components/responses/DatosInvalidos'
+        '404':
+          $ref: '#/components/responses/ProductoNoEncontrado'
+        '500':
+          $ref: '#/components/responses/ErrorInterno'
+  /carrito:
+    parameters:
+      - $ref: '#/components/parameters/CookieCarrito'
+    get:
+      tags: [Carrito]
+      operationId: obtenerCarrito
+      summary: Consultar el carrito actual
+      description: Si todavía no existe una sesión válida de carrito, crea una con un carrito vacío.
+      responses:
+        '200':
+          description: Carrito actual con sus subtotales y total.
+          headers:
+            Set-Cookie:
+              $ref: '#/components/headers/SesionCarrito'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Carrito'
+        '500':
+          $ref: '#/components/responses/ErrorInterno'
+  /categorias:
+    get:
+      tags: [Catálogo]
+      operationId: listarCategorias
+      summary: Listar categorías para el filtro del catálogo
+      responses:
+        '200':
+          description: Categorías disponibles, ordenadas por nombre.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Categoria'
+        '500':
+          $ref: '#/components/responses/ErrorInterno'
+  /carrito/items:
+    parameters:
+      - $ref: '#/components/parameters/CookieCarrito'
+    post:
+      tags: [Carrito]
+      operationId: agregarProductoAlCarrito
+      summary: Agregar unidades de un producto
+      description: |
+        Si el producto ya está en el carrito, suma la cantidad indicada a la existente.
+        Si no hay una sesión válida, inicia un carrito al agregar el primer producto.
+        La operación se rechaza si la cantidad resultante supera el stock disponible.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AgregarItem'
+      responses:
+        '200':
+          description: Carrito actualizado, con un ítem nuevo o una cantidad incrementada.
+          headers:
+            Set-Cookie:
+              $ref: '#/components/headers/SesionCarrito'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Carrito'
+        '400':
+          $ref: '#/components/responses/DatosInvalidos'
+        '404':
+          $ref: '#/components/responses/ProductoNoEncontrado'
+        '409':
+          $ref: '#/components/responses/StockInsuficiente'
+        '500':
+          $ref: '#/components/responses/ErrorInterno'
+  /carrito/items/{productoId}:
+    parameters:
+      - $ref: '#/components/parameters/ProductoId'
+      - $ref: '#/components/parameters/CookieCarrito'
+    patch:
+      tags: [Carrito]
+      operationId: cambiarCantidadDelCarrito
+      summary: Cambiar la cantidad de un ítem
+      description: |
+        Reemplaza la cantidad actual por la cantidad enviada. Debe ser mayor que cero
+        y no superar el stock disponible. Para quitar el ítem, usá DELETE.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CambiarCantidad'
+      responses:
+        '200':
+          $ref: '#/components/responses/CarritoActualizado'
+        '400':
+          $ref: '#/components/responses/DatosInvalidos'
+        '404':
+          $ref: '#/components/responses/ItemNoEncontrado'
+        '409':
+          $ref: '#/components/responses/StockInsuficiente'
+        '500':
+          $ref: '#/components/responses/ErrorInterno'
+    delete:
+      tags: [Carrito]
+      operationId: quitarProductoDelCarrito
+      summary: Quitar todas las unidades de un producto del carrito
+      responses:
+        '200':
+          $ref: '#/components/responses/CarritoActualizado'
+        '400':
+          $ref: '#/components/responses/DatosInvalidos'
+        '404':
+          $ref: '#/components/responses/ItemNoEncontrado'
+        '500':
+          $ref: '#/components/responses/ErrorInterno'
+  /compras:
+    parameters:
+      - $ref: '#/components/parameters/CookieCarrito'
+    get:
+      tags: [Compras]
+      operationId: listarHistorialCompras
+      summary: Ver el historial de compras de la sesión
+      description: |
+        Devuelve únicamente las compras registradas para la sesión identificada por
+        la cookie actual, ordenadas de la más reciente a la más antigua.
+        Si la sesión está ausente, vencida o no tiene compras, devuelve una lista vacía.
+      responses:
+        '200':
+          description: Historial de la sesión, con el detalle de cada compra.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Compra'
+        '500':
+          $ref: '#/components/responses/ErrorInterno'
+    post:
+      tags: [Compras]
+      operationId: confirmarCompra
+      summary: Confirmar la compra ficticia del carrito actual
+      description: |
+        Se envía sin cuerpo. El servidor valida el stock con los datos vigentes,
+        calcula el total y guarda la compra, su detalle y el descuento de stock
+        en una sola transacción. Cada detalle conserva su precio unitario al comprar.
+        La compra se vincula a la sesión actual y el carrito se vacía conservando
+        esa sesión para consultar el historial. Si falla la confirmación,
+        el carrito conserva sus ítems.
+      responses:
+        '201':
+          description: Compra registrada.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ConfirmacionCompra'
+        '409':
+          description: Carrito vacío, sesión ausente o vencida, o stock insuficiente.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                carritoVacio:
+                  value:
+                    codigo: CARRITO_VACIO
+                    mensaje: El carrito no tiene productos.
+                stockInsuficiente:
+                  value:
+                    codigo: STOCK_INSUFICIENTE
+                    mensaje: El stock disponible ya no alcanza para confirmar la compra.
+        '500':
+          $ref: '#/components/responses/ErrorInterno'
+components:
+  parameters:
+    ProductoId:
+      name: productoId
+      in: path
+      required: true
+      description: Identificador del producto.
+      schema:
+        $ref: '#/components/schemas/Id'
+    CookieCarrito:
+      name: cilsa_carrito
+      in: cookie
+      required: false
+      description: Identificador opaco de la sesión del carrito y su historial, administrado por el navegador.
+      schema:
+        type: string
+  headers:
+    SesionCarrito:
+      description: Se incluye al crear una sesión anónima de carrito.
+      schema:
+        type: string
+      example: cilsa_carrito=identificador-opaco; Path=/api; HttpOnly; SameSite=Lax
+  responses:
+    CarritoActualizado:
+      description: Carrito actualizado, con los subtotales y el total recalculados.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Carrito'
+    DatosInvalidos:
+      description: ID, filtro, cantidad o cuerpo de la solicitud inválidos.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          example:
+            codigo: DATOS_INVALIDOS
+            mensaje: La solicitud contiene datos inválidos.
+    ProductoNoEncontrado:
+      description: El producto indicado no existe.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          example:
+            codigo: PRODUCTO_NO_ENCONTRADO
+            mensaje: No existe el producto indicado.
+    ItemNoEncontrado:
+      description: El producto indicado no forma parte del carrito actual.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          example:
+            codigo: ITEM_NO_ENCONTRADO
+            mensaje: El producto no está en el carrito.
+    StockInsuficiente:
+      description: La cantidad solicitada supera el stock.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          example:
+            codigo: STOCK_INSUFICIENTE
+            mensaje: La cantidad solicitada supera el stock disponible.
+    ErrorInterno:
+      description: Error inesperado del servidor.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          example:
+            codigo: ERROR_INTERNO
+            mensaje: No se pudo completar la operación.
+  schemas:
+    Id:
+      type: integer
+      format: int32
+      minimum: 1
+      example: 1
+    Cantidad:
+      type: integer
+      format: int32
+      minimum: 1
+      example: 2
+    Centavos:
+      type: integer
+      minimum: 0
+      description: Importe en centavos de pesos argentinos.
+      example: 3499900
+    Categoria:
+      type: object
+      required: [id, nombre]
+      properties:
+        id:
+          $ref: '#/components/schemas/Id'
+        nombre:
+          type: string
+          example: Tecnología
+    Producto:
+      type: object
+      required: [id, codigo, vendedorId, nombre, descripcion, categoriaId, imagenUrl, precioCentavos, stock]
+      properties:
+        id:
+          $ref: '#/components/schemas/Id'
+        codigo:
+          type: string
+          example: TEC-001
+        vendedorId:
+          $ref: '#/components/schemas/Id'
+        nombre:
+          type: string
+          example: Teclado compacto
+        descripcion:
+          type: string
+          example: Teclado USB con distribución en español.
+        categoriaId:
+          type: integer
+          format: int32
+          minimum: 1
+          nullable: true
+          description: ID de la categoría. Es nulo si el producto aún no está categorizado.
+          example: 1
+        imagenUrl:
+          type: string
+          format: uri
+          nullable: true
+        precioCentavos:
+          $ref: '#/components/schemas/Centavos'
+        stock:
+          type: integer
+          minimum: 0
+          example: 12
+    AgregarItem:
+      type: object
+      additionalProperties: false
+      required: [productoId, cantidad]
+      properties:
+        productoId:
+          $ref: '#/components/schemas/Id'
+        cantidad:
+          $ref: '#/components/schemas/Cantidad'
+    CambiarCantidad:
+      type: object
+      additionalProperties: false
+      required: [cantidad]
+      properties:
+        cantidad:
+          $ref: '#/components/schemas/Cantidad'
+    ItemCarrito:
+      type: object
+      required: [producto, cantidad, subtotalCentavos]
+      properties:
+        producto:
+          $ref: '#/components/schemas/Producto'
+        cantidad:
+          $ref: '#/components/schemas/Cantidad'
+        subtotalCentavos:
+          $ref: '#/components/schemas/Centavos'
+    Carrito:
+      type: object
+      required: [items, totalCentavos]
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/ItemCarrito'
+        totalCentavos:
+          $ref: '#/components/schemas/Centavos'
+    DetalleCompra:
+      type: object
+      required: [productoId, cantidad, precioUnitarioCentavos]
+      properties:
+        productoId:
+          $ref: '#/components/schemas/Id'
+        cantidad:
+          $ref: '#/components/schemas/Cantidad'
+        precioUnitarioCentavos:
+          $ref: '#/components/schemas/Centavos'
+    Compra:
+      type: object
+      required: [id, fecha, totalCentavos, detalles]
+      properties:
+        id:
+          $ref: '#/components/schemas/Id'
+        fecha:
+          type: string
+          format: date-time
+        totalCentavos:
+          $ref: '#/components/schemas/Centavos'
+        detalles:
+          type: array
+          minItems: 1
+          items:
+            $ref: '#/components/schemas/DetalleCompra'
+    ConfirmacionCompra:
+      allOf:
+        - $ref: '#/components/schemas/Compra'
+        - type: object
+          required: [mensaje]
+          properties:
+            mensaje:
+              type: string
+              example: Compra confirmada correctamente.
+    Error:
+      type: object
+      required: [codigo, mensaje]
+      properties:
+        codigo:
+          type: string
+          enum:
+            - DATOS_INVALIDOS
+            - PRODUCTO_NO_ENCONTRADO
+            - ITEM_NO_ENCONTRADO
+            - STOCK_INSUFICIENTE
+            - CARRITO_VACIO
+            - ERROR_INTERNO
+        mensaje:
+          type: string
