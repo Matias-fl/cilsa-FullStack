@@ -1,4 +1,4 @@
-export class DatosInvalidosError extends Error {}
+import { DatosInvalidosError } from './datosInvalidosError.js'
 
 export function validarId(valor, campo) {
   const id = typeof valor === 'string' && /^\d+$/.test(valor) ? Number(valor) : NaN

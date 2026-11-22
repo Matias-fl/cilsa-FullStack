@@ -1,19 +1,101 @@
 openapi: 3.0.3
 info:
   title: API de la tienda CILSA
-  version: 0.2.0
+  version: 0.3.0
   description: |
-    Contrato para el catálogo, el carrito y la compra ficticia del TFI.
+    Contrato para la autenticación, el catálogo, el carrito y la compra ficticia del TFI.
     Los precios y los totales se expresan como enteros en centavos de pesos argentinos.
     La cookie cilsa_carrito identifica la sesión anónima del carrito y de su historial de compras.
 servers:
   - url: http://localhost:3000/api
     description: Servidor local previsto
 tags:
+  - name: Auth
   - name: Catálogo
   - name: Carrito
   - name: Compras
 paths:
+  /register:
+    post:
+      tags: [Auth]
+      operationId: registrarUsuario
+      summary: Crear una cuenta e iniciar sesión
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Registro'
+      responses:
+        '201':
+          description: Cuenta creada.
+          headers:
+            Authorization:
+              $ref: '#/components/headers/TokenSesion'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UsuarioAutenticado'
+        '400':
+          $ref: '#/components/responses/DatosInvalidos'
+        '409':
+          description: El correo ya está registrado.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              example:
+                codigo: EMAIL_EN_USO
+                mensaje: Ya existe una cuenta con ese correo electrónico.
+        '413':
+          $ref: '#/components/responses/CuerpoDemasiadoGrande'
+        '415':
+          $ref: '#/components/responses/CodificacionInvalida'
+        '500':
+          $ref: '#/components/responses/ErrorInterno'
+  /login:
+    post:
+      tags: [Auth]
+      operationId: iniciarSesion
+      summary: Iniciar sesión con correo y contraseña
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Credenciales'
+      responses:
+        '200':
+          description: Sesión iniciada.
+          headers:
+            Authorization:
+              $ref: '#/components/headers/TokenSesion'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UsuarioAutenticado'
+        '400':
+          $ref: '#/components/responses/DatosInvalidos'
+        '401':
+          description: Correo o contraseña incorrectos.
+          headers:
+            WWW-Authenticate:
+              schema:
+                type: string
+              example: Bearer realm="cilsa"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              example:
+                codigo: CREDENCIALES_INVALIDAS
+                mensaje: El correo electrónico o la contraseña son incorrectos.
+        '413':
+          $ref: '#/components/responses/CuerpoDemasiadoGrande'
+        '415':
+          $ref: '#/components/responses/CodificacionInvalida'
+        '500':
+          $ref: '#/components/responses/ErrorInterno'
   /productos:
     get:
       tags: [Catálogo]
@@ -257,12 +339,28 @@ components:
       schema:
         type: string
   headers:
+    TokenSesion:
+      description: JWT de sesión, con vigencia de una hora, en formato Bearer.
+      schema:
+        type: string
     SesionCarrito:
       description: Se incluye al crear una sesión anónima de carrito.
       schema:
         type: string
       example: cilsa_carrito=identificador-opaco; Path=/api; HttpOnly; SameSite=Lax
   responses:
+    CuerpoDemasiadoGrande:
+      description: El cuerpo supera los 32 KB.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    CodificacionInvalida:
+      description: El servidor no admite la codificación del cuerpo.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
     CarritoActualizado:
       description: Carrito actualizado, con los subtotales y el total recalculados.
       content:
@@ -315,6 +413,62 @@ components:
             codigo: ERROR_INTERNO
             mensaje: No se pudo completar la operación.
   schemas:
+    Credenciales:
+      type: object
+      required: [email, password]
+      properties:
+        email:
+          type: string
+          format: email
+          maxLength: 254
+          description: Se ignoran los espacios en los extremos y las diferencias entre mayúsculas y minúsculas.
+          example: ana@example.com
+        password:
+          type: string
+          format: password
+          minLength: 1
+          maxLength: 128
+          writeOnly: true
+    Registro:
+      allOf:
+        - $ref: '#/components/schemas/Credenciales'
+        - type: object
+          required: [name]
+          properties:
+            name:
+              type: string
+              minLength: 1
+              maxLength: 100
+              example: Ana Pérez
+            password:
+              type: string
+              format: password
+              minLength: 8
+              maxLength: 128
+              writeOnly: true
+            image:
+              type: string
+              format: uri
+              nullable: true
+              maxLength: 2048
+              description: URL HTTP o HTTPS de la imagen de perfil.
+    UsuarioAutenticado:
+      type: object
+      required: [id, name, email, image]
+      properties:
+        id:
+          $ref: '#/components/schemas/Id'
+        name:
+          type: string
+          example: Ana Pérez
+        email:
+          type: string
+          format: email
+          example: ana@example.com
+        image:
+          type: string
+          format: uri
+          nullable: true
     Id:
       type: integer
       format: int32
@@ -452,6 +606,9 @@ components:
           type: string
           enum:
             - DATOS_INVALIDOS
+            - CREDENCIALES_INVALIDAS
+            - EMAIL_EN_USO
+            - CUERPO_DEMASIADO_GRANDE
             - PRODUCTO_NO_ENCONTRADO
             - ITEM_NO_ENCONTRADO
             - STOCK_INSUFICIENTE

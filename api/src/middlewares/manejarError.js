@@ -1,5 +1,9 @@
-import { ProductoNoEncontradoError } from '../../../backend/dist/index.js'
-import { DatosInvalidosError } from '../validators/catalogoValidator.js'
+import {
+  CredencialesInvalidasError,
+  EmailEnUsoError,
+  ProductoNoEncontradoError,
+} from '../../../backend/dist/index.js'
+import { DatosInvalidosError } from '../validators/datosInvalidosError.js'
 
 export function manejarError(error, _req, res, next) {
   if (res.headersSent) {
@@ -15,6 +19,29 @@ export function manejarError(error, _req, res, next) {
 
   if (error instanceof ProductoNoEncontradoError) {
     return res.status(404).json({ codigo: 'PRODUCTO_NO_ENCONTRADO', mensaje: error.message })
+  }
+
+  if (error instanceof CredencialesInvalidasError) {
+    return res.status(401).set('WWW-Authenticate', 'Bearer realm="cilsa"').json({
+      codigo: 'CREDENCIALES_INVALIDAS',
+      mensaje: error.message,
+    })
+  }
+
+  if (error instanceof EmailEnUsoError) {
+    return res.status(409).json({ codigo: 'EMAIL_EN_USO', mensaje: error.message })
+  }
+
+  if (error.type === 'entity.parse.failed') {
+    return res.status(400).json({ codigo: 'DATOS_INVALIDOS', mensaje: 'El cuerpo debe ser JSON válido.' })
+  }
+
+  if (error.type === 'entity.too.large') {
+    return res.status(413).json({ codigo: 'CUERPO_DEMASIADO_GRANDE', mensaje: 'El cuerpo supera los 32 KB.' })
+  }
+
+  if (error.type === 'encoding.unsupported' || error.type === 'charset.unsupported') {
+    return res.status(415).json({ codigo: 'DATOS_INVALIDOS', mensaje: 'La codificación del cuerpo es inválida.' })
   }
 
   console.error(error)
