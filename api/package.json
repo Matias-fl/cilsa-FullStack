@@ -2,7 +2,7 @@
   "name": "api",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "src/app.js",
   "dependencies": {
     "accepts": "^2.0.0",
     "body-parser": "^2.4.0",
@@ -72,10 +72,12 @@
   },
   "devDependencies": {},
   "scripts": {
+    "prestart": "npm run build --prefix ../backend",
+    "start": "node --env-file-if-exists=.env src/app.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "type": "commonjs"
+  "type": "module"
 }
