@@ -222,6 +222,10 @@ paths:
           $ref: '#/components/responses/ProductoNoEncontrado'
         '409':
           $ref: '#/components/responses/StockInsuficiente'
+        '413':
+          $ref: '#/components/responses/CuerpoDemasiadoGrande'
+        '415':
+          $ref: '#/components/responses/CodificacionInvalida'
         '500':
           $ref: '#/components/responses/ErrorInterno'
   /carrito/items/{productoId}:
@@ -250,6 +254,10 @@ paths:
           $ref: '#/components/responses/ItemNoEncontrado'
         '409':
           $ref: '#/components/responses/StockInsuficiente'
+        '413':
+          $ref: '#/components/responses/CuerpoDemasiadoGrande'
+        '415':
+          $ref: '#/components/responses/CodificacionInvalida'
         '500':
           $ref: '#/components/responses/ErrorInterno'
     delete:
@@ -344,7 +352,7 @@ components:
       schema:
         type: string
     SesionCarrito:
-      description: Se incluye al crear una sesión anónima de carrito.
+      description: Se incluye al crear una sesión anónima de carrito, con vigencia de 30 días.
       schema:
         type: string
       example: cilsa_carrito=identificador-opaco; Path=/api; HttpOnly; SameSite=Lax
@@ -473,11 +481,13 @@ components:
       type: integer
       format: int32
       minimum: 1
+      maximum: 2147483647
       example: 1
     Cantidad:
       type: integer
       format: int32
       minimum: 1
+      maximum: 2147483647
       example: 2
     Centavos:
       type: integer

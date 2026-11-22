@@ -1,7 +1,9 @@
 import {
   CredencialesInvalidasError,
   EmailEnUsoError,
+  ItemCarritoNoEncontradoError,
   ProductoNoEncontradoError,
+  StockInsuficienteError,
 } from '../../../backend/dist/index.js'
 import { DatosInvalidosError } from '../validators/datosInvalidosError.js'
 
@@ -19,6 +21,14 @@ export function manejarError(error, _req, res, next) {
 
   if (error instanceof ProductoNoEncontradoError) {
     return res.status(404).json({ codigo: 'PRODUCTO_NO_ENCONTRADO', mensaje: error.message })
+  }
+
+  if (error instanceof ItemCarritoNoEncontradoError) {
+    return res.status(404).json({ codigo: 'ITEM_NO_ENCONTRADO', mensaje: error.message })
+  }
+
+  if (error instanceof StockInsuficienteError) {
+    return res.status(409).json({ codigo: 'STOCK_INSUFICIENTE', mensaje: error.message })
   }
 
   if (error instanceof CredencialesInvalidasError) {

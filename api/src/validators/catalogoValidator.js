@@ -2,11 +2,15 @@ import { DatosInvalidosError } from './datosInvalidosError.js'
 
 export function validarId(valor, campo) {
   const id = typeof valor === 'string' && /^\d+$/.test(valor) ? Number(valor) : NaN
-  if (!Number.isInteger(id) || id < 1 || id > 2147483647) {
+  return validarEnteroPositivo(id, campo)
+}
+
+export function validarEnteroPositivo(valor, campo) {
+  if (!Number.isInteger(valor) || valor < 1 || valor > 2147483647) {
     throw new DatosInvalidosError(`${campo} debe ser un entero positivo de 32 bits.`)
   }
 
-  return id
+  return valor
 }
 
 export function validarFiltros({ q, categoriaId }) {
