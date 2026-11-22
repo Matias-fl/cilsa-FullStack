@@ -1,8 +1,13 @@
 # Dependencias
 node_modules/
+dist/
+coverage/
+*.tsbuildinfo
 
 # Variables de entorno (contiene información sensible/local de cada uno)
 .env
+.env.*
+!.env.example
 
 # Logs
 *.log
@@ -10,4 +15,6 @@ npm-debug.log*
 
 # Sistema operativo / editor
 .DS_Store
+Thumbs.db
 .vscode/
+.idea/
