@@ -49,3 +49,14 @@ Si la base ya existe, aplicá `backend/database/migrations/005_crear_carritos.sq
 | `DELETE /api/carrito/items/1` | | Quita el producto. |
 
 Cada operación exitosa devuelve el carrito con los subtotales y el total en centavos. Si la cantidad supera el stock actual, la API devuelve `409 STOCK_INSUFICIENTE`.
+
+## Compras
+
+Si la base ya existe, aplicá `backend/database/migrations/006_vincular_compras_con_carritos.sql`.
+
+| Endpoint | Acción |
+| --- | --- |
+| `POST /api/compras` | Confirma la compra ficticia con la cookie del carrito, sin cuerpo. Devuelve `201` con el detalle. |
+| `GET /api/compras` | Lista las compras de la sesión actual, de la más reciente a la más antigua. |
+
+La confirmación guarda los precios unitarios del momento, descuenta el stock y vacía el carrito en una sola transacción. Usá la misma cookie `cilsa_carrito` para consultar el historial después de comprar.

@@ -1,4 +1,5 @@
 import {
+  CarritoVacioError,
   CredencialesInvalidasError,
   EmailEnUsoError,
   ItemCarritoNoEncontradoError,
@@ -29,6 +30,10 @@ export function manejarError(error, _req, res, next) {
 
   if (error instanceof StockInsuficienteError) {
     return res.status(409).json({ codigo: 'STOCK_INSUFICIENTE', mensaje: error.message })
+  }
+
+  if (error instanceof CarritoVacioError) {
+    return res.status(409).json({ codigo: 'CARRITO_VACIO', mensaje: error.message })
   }
 
   if (error instanceof CredencialesInvalidasError) {
