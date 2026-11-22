@@ -16,3 +16,15 @@ export class CredencialesInvalidasError extends Error {
     super('El correo electrónico o la contraseña son incorrectos.')
   }
 }
+
+export class ItemCarritoNoEncontradoError extends Error {
+  constructor() {
+    super('El producto no está en el carrito.')
+  }
+}
+
+export class StockInsuficienteError extends Error {
+  constructor() {
+    super('La cantidad solicitada supera el stock disponible.')
+  }
+}
