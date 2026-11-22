@@ -1,4 +1,5 @@
 import type { Pool, PoolClient } from 'pg'
+import { enTransaccion } from '../database/enTransaccion.js'
 import type { ItemCarrito, Producto } from '../model.js'
 import { columnasProducto } from './ProductoRepository.js'
 
@@ -57,13 +58,18 @@ export class CarritoTransaccion {
     return resultado.rowCount === 1
   }
 
-  async listarItems(carritoId: string): Promise<ItemConProducto[]> {
+  async vaciar(carritoId: string): Promise<void> {
+    await this.cliente.query('DELETE FROM public.items_carrito WHERE carrito_id = $1', [carritoId])
+  }
+
+  async listarItems(carritoId: string, bloquearProductos = false): Promise<ItemConProducto[]> {
     const resultado = await this.cliente.query<Producto & Pick<ItemCarrito, 'cantidad'>>(
       `SELECT ${columnasProducto}, item.cantidad
        FROM public.items_carrito AS item
        JOIN public.productos AS producto ON producto.id = item.producto_id
        WHERE item.carrito_id = $1
-       ORDER BY producto.id`,
+       ORDER BY producto.id
+       ${bloquearProductos ? 'FOR UPDATE OF producto' : ''}`,
       [carritoId]
     )
     return resultado.rows.map(({ cantidad, ...producto }) => ({ producto, cantidad }))
@@ -73,19 +79,7 @@ export class CarritoTransaccion {
 export class CarritoRepository {
   constructor(private readonly pool: Pool) {}
 
-  async enTransaccion<T>(operacion: (carrito: CarritoTransaccion) => Promise<T>): Promise<T> {
-    const cliente = await this.pool.connect()
-    let descartarCliente = false
-    try {
-      await cliente.query('BEGIN ISOLATION LEVEL READ COMMITTED')
-      const resultado = await operacion(new CarritoTransaccion(cliente))
-      await cliente.query('COMMIT')
-      return resultado
-    } catch (error) {
-      await cliente.query('ROLLBACK').catch(() => { descartarCliente = true })
-      throw error
-    } finally {
-      cliente.release(descartarCliente)
-    }
+  enTransaccion<T>(operacion: (carrito: CarritoTransaccion) => Promise<T>): Promise<T> {
+    return enTransaccion(this.pool, cliente => operacion(new CarritoTransaccion(cliente)))
   }
 }

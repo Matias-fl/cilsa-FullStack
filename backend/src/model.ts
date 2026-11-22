@@ -30,7 +30,7 @@ export type ItemCarrito = {
 export type Compra = {
   id: number
   fecha: Date
-  totalCentavos: number
+  totalCentavos: bigint
   detalles: DetalleCompra[]
 }
 

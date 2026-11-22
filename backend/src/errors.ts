@@ -24,7 +24,13 @@ export class ItemCarritoNoEncontradoError extends Error {
 }
 
 export class StockInsuficienteError extends Error {
+  constructor(mensaje = 'La cantidad solicitada supera el stock disponible.') {
+    super(mensaje)
+  }
+}
+
+export class CarritoVacioError extends Error {
   constructor() {
-    super('La cantidad solicitada supera el stock disponible.')
+    super('El carrito no tiene productos.')
   }
 }
