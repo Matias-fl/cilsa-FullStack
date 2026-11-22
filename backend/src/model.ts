@@ -2,6 +2,7 @@ export type Usuario = {
   id: number
   nombre: string
   email: string
+  imagenUrl: string | null
 }
 
 export type Categoria = {
