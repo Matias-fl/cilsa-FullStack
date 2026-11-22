@@ -1,7 +1,7 @@
 import type { Pool } from 'pg'
 import type { Producto } from '../model.js'
 
-const columnas = `
+export const columnasProducto = `
   id, codigo, vendedor_id AS "vendedorId", nombre, descripcion,
   categoria_id AS "categoriaId",
   imagen_url AS "imagenUrl",
@@ -18,7 +18,7 @@ export class ProductoRepository {
 
   async listar({ q, categoriaId }: FiltrosCatalogo = {}): Promise<Producto[]> {
     const resultado = await this.pool.query<Producto>(
-      `SELECT ${columnas}
+      `SELECT ${columnasProducto}
        FROM public.productos
        WHERE ($1::text IS NULL OR strpos(lower(nombre), lower($1)) > 0)
          AND ($2::integer IS NULL OR categoria_id = $2)
@@ -30,7 +30,7 @@ export class ProductoRepository {
 
   async buscarPorId(id: number): Promise<Producto | undefined> {
     const resultado = await this.pool.query<Producto>(
-      `SELECT ${columnas} FROM public.productos WHERE id = $1`,
+      `SELECT ${columnasProducto} FROM public.productos WHERE id = $1`,
       [id]
     )
     return resultado.rows[0]
